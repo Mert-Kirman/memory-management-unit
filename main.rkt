@@ -20,13 +20,16 @@
                     (+ (binary_to_decimal (car args)) base))
                 (relocator (cdr args) limit base)))))
 
-(define (divide_address_space num page_size)
+(define (divide_address_space num page_size) ; Function that returns a list consisting of the page number and page offset by splitting a logical address according to the given page_size in KB
   (list (substring num 0 (- (string-length num) (+ (log_2 page_size) 10))) (substring num (- (string-length num) (+ (log_2 page_size) 10)) (string-length num))))
 
 (define (log_2 x) ; Function that returns the power of a given number 
   (exact-round (/ (log x) (log 2))))
 
-;(define (page args page_table  page_size))
+(define (page args page_table  page_size) ; Function that returns the list of physical addresses of the given args with using page_table and page_size in KB
+  (cond
+    ((null? args) '())
+    (else (cons (string-append (list-ref page_table (binary_to_decimal (car (divide_address_space (car args) page_size)))) (cadr (divide_address_space (car args) page_size))) (page (cdr args) page_table page_size)))))
 
 ;(define (find_sin value num))
 
