@@ -12,7 +12,13 @@
       (string->number binary)
       (+ (string->number (string (string-ref binary (- (string-length binary) 1)))) (* 2 (binary_to_decimal (substring binary 0 (- (string-length binary) 1)))))))
 
-;(define (relocator args limit base))
+(define (relocator args limit base)
+  (cond
+    ((null? args) '())
+    (else (cons (if (> (binary_to_decimal (car args)) limit)
+                    -1
+                    (+ (binary_to_decimal (car args)) base))
+                (relocator (cdr args) limit base)))))
 
 ;(define (divide_address_space num page_size))
 
