@@ -63,6 +63,12 @@
     ((string=? (caar hash_index_lists) page_number) (cadar hash_index_lists))
     (else (find_matching_page_number (cdr hash_index_lists) page_number))))
 
-;(define (split_addresses args size))
+(define (split_addresses args size) ; Function that given a stream of logical addresses args and the size of the logical address space size, returns a list of logical addresses
+  (split_addresses_helper args size 0 size))
+
+(define (split_addresses_helper args size current_start current_end) ; Helper function that splits addresses with the help of start and end pointers
+  (cond 
+    ((= current_end (string-length args)) (cons (list (substring args current_start current_end)) '()))
+    (else (cons (list (substring args current_start current_end)) (split_addresses_helper args size (+ current_start size) (+ current_end size))))))
 
 ;(define (map_addresses args page_table page_size))
