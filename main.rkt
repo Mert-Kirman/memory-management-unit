@@ -31,7 +31,21 @@
     ((null? args) '())
     (else (cons (string-append (list-ref page_table (binary_to_decimal (car (divide_address_space (car args) page_size)))) (cadr (divide_address_space (car args) page_size))) (page (cdr args) page_table page_size)))))
 
-;(define (find_sin value num))
+(define (find_sin value num) ; Function that returns the sine of an angle given in value by using the Taylor series expansion, up to a predefined number num
+  (find_sin_radian (* pi (/ value 180)) (- num 1)))
+
+(define (find_sin_radian value num) ; Helper function that uses the radian form of the num given in the parent function
+  (cond
+    ((= num 0) value)
+    (else (+ (find_sin_radian value (- num 1)) (* (/ (expt -1 num) (my_factorial (+ (* 2 num) 1))) (expt value (+ (* 2 num) 1)))))))
+
+(define (my_factorial value) ; Function that returns the factorial of a value
+  (my_factorial_helper value 1))
+
+(define (my_factorial_helper value accumulator) ; Helper function to make factorial function tail recursive
+  (if (<= value 0)
+    accumulator
+    (my_factorial_helper (- value 1) (* value accumulator))))
 
 ;(define (myhash arg table_size))
 
