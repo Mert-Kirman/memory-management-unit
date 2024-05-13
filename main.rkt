@@ -47,7 +47,13 @@
     accumulator
     (my_factorial_helper (- value 1) (* value accumulator))))
 
-;(define (myhash arg table_size))
+(define (myhash arg table_size) ; Function that returns the hash value of a given binary number
+  (modulo (first_n_digits (number->string (find_sin (binary_to_decimal arg) (+ (modulo (binary_to_decimal arg) 5) 1))) 0 10) table_size))
+
+(define (first_n_digits arg accumulator n) ; Function that sums the first n digits after the decimal of a given arg number
+  (cond
+    ((= n 0) 0)
+    (else (+ (first_n_digits arg accumulator (- n 1)) (string->number (string (string-ref arg (+ n 1))))))))
 
 ;(define (hashed_page arg table_size page_table page_size))
 
