@@ -55,7 +55,13 @@
     ((= n 0) 0)
     (else (+ (first_n_digits arg accumulator (- n 1)) (string->number (string (string-ref arg (+ n 1))))))))
 
-;(define (hashed_page arg table_size page_table page_size))
+(define (hashed_page arg table_size page_table page_size) ; Function that returns the physical address for a given logical address arg by using a hashed page table
+  (string-append (find_matching_page_number (list-ref page_table (myhash (car (divide_address_space arg page_size)) table_size)) (car (divide_address_space arg page_size))) (cadr (divide_address_space arg page_size))))
+
+(define (find_matching_page_number hash_index_lists page_number) ; Helper function to find a list whose head matches with the page_number and return this list's tail
+  (cond 
+    ((string=? (caar hash_index_lists) page_number) (cadar hash_index_lists))
+    (else (find_matching_page_number (cdr hash_index_lists) page_number))))
 
 ;(define (split_addresses args size))
 
