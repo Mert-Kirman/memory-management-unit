@@ -1,7 +1,3 @@
-;name surname
-;student id
-;compiling: yes
-;complete: yes
 #lang racket
 
 (provide (all-defined-out))
@@ -71,4 +67,8 @@
     ((= current_end (string-length args)) (cons (list (substring args current_start current_end)) '()))
     (else (cons (list (substring args current_start current_end)) (split_addresses_helper args size (+ current_start size) (+ current_end size))))))
 
-;(define (map_addresses args page_table page_size))
+(define (map_addresses args table_size page_table page_size address_space_size) ; Function that returns a list of physical addresses for a given stream of logical addresses by using a hashed page table
+  (map (partial_hashed_page table_size page_table page_size) (split_addresses args address_space_size)))
+
+(define (partial_hashed_page table_size page_table page_size) ; Partial function application to be used in parent function "map_adresses"
+  (lambda (arg_list) (hashed_page (car arg_list) table_size page_table page_size)))
