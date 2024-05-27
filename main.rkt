@@ -28,7 +28,7 @@
     (else (cons (string-append (list-ref page_table (binary_to_decimal (car (divide_address_space (car args) page_size)))) (cadr (divide_address_space (car args) page_size))) (page (cdr args) page_table page_size)))))
 
 (define (find_sin value num) ; Function that returns the sine of an angle given in value by using the Taylor series expansion, up to a predefined number num
-  (find_sin_radian (* pi (/ value 180)) (- num 1)))
+  (find_sin_radian (* pi (/ (modulo value 360) 180)) (- num 1)))
 
 (define (find_sin_radian value num) ; Helper function that uses the radian form of the num given in the parent function
   (cond
